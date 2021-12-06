@@ -9,6 +9,8 @@
 # The remaining 2 classes :
 
  # one of them is AbstractBaseClass:
+
+    # it inherites from (tkinter.Frames)class
   
     # with two methods 
 
