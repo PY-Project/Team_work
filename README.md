@@ -11,13 +11,11 @@
  # one of them is AbstractBaseClass:
   
     # with two methods 
-    
-      one of them called:
-      
+
         1- __creat Frame.
         2- __creat Widget.
  
-    # We can't use abstract hidden (private)method method 
+    # We can't use hidden(private)method 
      as abstract method,because it will raise an error..
   
     # that 3 classes :
@@ -29,4 +27,4 @@
   
  # The last Class is named Player(Sound Track,Track List,Controls)
  
-  in which we call the methods created in the other 3 classes ......
+  that inherites all methods and attributes from the 3 classes , and in which we call the methods created in the other 3 classes ......
