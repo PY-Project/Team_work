@@ -30,16 +30,16 @@ pygame.display.set_caption('FlappyBird')
 '''load images''' 
 
 # background_image 
-bg = pygame.image.load(r'D:\College\Python_project\images\bg.png') 
+bg = pygame.image.load(r'images\bg.png') 
 
 # Scrolling_ground_img
-ground_img = pygame.image.load(r'D:\College\Python_project\images\ground.png') 
+ground_img = pygame.image.load(r'images\ground.png') 
 
 # Restart button_image
-restart_button = pygame.image.load(r'D:\College\Python_project\images\restart.png')
+restart_button = pygame.image.load(r'images\restart.png')
 
 # Exit button_image
-exit_button = pygame.image.load(r'D:\College\Python_project\images\exit.png')
+exit_button = pygame.image.load(r'images\exit.png')
 
 # define Game Variables
 ground_scroll = 0
@@ -191,7 +191,7 @@ class Bird(pygame.sprite.Sprite):
 
         # fill the list with all bird images for animation
         for num in range(1,4):
-            img =  pygame.image.load(rf'D:\College\Python_project\images\bird{num}.png')
+            img =  pygame.image.load(rf'bird{num}.png')
             self.images.append(img)
 
         self.image = self.images[self.index]
@@ -250,7 +250,7 @@ class Pipe(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load(r'D:\College\Python_project\images\pipe.png')
+        self.image = pygame.image.load(r'images\pipe.png')
         self.rect = self.image.get_rect()
 
         # position 1 means from top , -1 from bottom
