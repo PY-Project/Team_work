@@ -1,12 +1,12 @@
 ''' The is the main file of our Project '''
 
 import pygame
+import os
 from pygame.locals import *
 from random import randint
 
 # Initalize the Game Window
 pygame.init()
-
 
 clock = pygame.time.Clock()
 fps = 60 # frame per Second
@@ -30,16 +30,16 @@ pygame.display.set_caption('FlappyBird')
 '''load images''' 
 
 # background_image 
-bg = pygame.image.load(r'images\bg.png') 
+bg = pygame.image.load('images\bg.png') 
 
 # Scrolling_ground_img
-ground_img = pygame.image.load(r'images\ground.png') 
+ground_img = pygame.image.load('images\ground.png') 
 
 # Restart button_image
-restart_button = pygame.image.load(r'images\restart.png')
+restart_button = pygame.image.load('images\restart.png')
 
 # Exit button_image
-exit_button = pygame.image.load(r'images\exit.png')
+exit_button = pygame.image.load('images\exit.png')
 
 # define Game Variables
 ground_scroll = 0
@@ -54,6 +54,25 @@ high_score = 0
 pass_pipe = False
 
 '''Game Function'''
+
+# appending_high_score_function
+def append_score(high_score):
+
+    '''This function to append high_score in the file'''
+
+    score_file = open('score.txt','a')
+    score_file.write(f'{high_score}\n')
+    score_file.close()
+
+# reading_high_score_function
+def readfunc():
+
+    '''This function to read high_score in the file'''
+
+    score_file = open('score.txt','r')
+    list = score_file.readlines()
+    score_file.close()
+    return list
 
 # score function 
 def draw_text (text,font,text_col,x,y):
@@ -103,6 +122,9 @@ def check_collision (bird_group,pipe_group,flappy):
         # flappy.rect.top < 0 (means he crached the top of the screen)
         game_over = True
         high_score = max(high_score,score)
+        list = readfunc()
+        if high_score>int(list[-1]):
+            append_score(high_score)
 
 # check_scroll function:
 def check_scroll():
@@ -191,7 +213,7 @@ class Bird(pygame.sprite.Sprite):
 
         # fill the list with all bird images for animation
         for num in range(1,4):
-            img =  pygame.image.load(rf'images\bird{num}.png')
+            img =  pygame.image.load(f'images\bird{num}.png')
             self.images.append(img)
 
         self.image = self.images[self.index]
@@ -250,7 +272,7 @@ class Pipe(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load(r'images\pipe.png')
+        self.image = pygame.image.load('images\pipe.png')
         self.rect = self.image.get_rect()
 
         # position 1 means from top , -1 from bottom
@@ -326,6 +348,12 @@ reset_button = Button(screen_width//2-200,screen_height//2-100,restart_button)
 # create quit button instance 
 quit_button = Button(screen_width//2+100,screen_height//2-100,exit_button)
 
+if os.path.exists('score.txt'):
+    pass
+
+else:
+    append_score(0)
+
 run = True
 
 while run:
@@ -354,7 +382,8 @@ while run:
 
     # this function to draw score on the screen
     draw_text(str(score),font,color,screen_width//2-50,20)
-    draw_text(f'best {high_score}',font,color,screen_width-200,20)
+    list = readfunc()
+    draw_text(f'best {int(list[-1])}',font,color,screen_width-200,20)
 
     # collision between flappy_bird and pipe
     check_collision (bird_group,pipe_group,flappy)
@@ -376,5 +405,6 @@ while run:
 
     # To Continue showing each object on the screen
     pygame.display.update()
-print(high_score)
+
+
 pygame.quit()
