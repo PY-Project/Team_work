@@ -101,8 +101,8 @@ def check_collision (bird_group,pipe_group,flappy):
         or flappy.rect.top < 0:
         # flappy.rect.top < 0 (means he crached the top of the screen)
         game_over = True
-        list = read_score()
-        append_score(max(score,int(list[-1])))
+        new_score = read_score()
+        write_score(max(score,new_score))
 
 # check_scroll function:
 def check_scroll():
@@ -191,7 +191,7 @@ class Bird(pygame.sprite.Sprite):
 
         # fill the list with all bird images for animation
         for num in range(1,4):
-            img =  pygame.image.load(f'images\bird{num}.png')
+            img =  pygame.image.load(f'bird{num}.png')
             self.images.append(img)
 
         self.image = self.images[self.index]
@@ -315,11 +315,11 @@ class Button():
         screen.blit(self.image,(self.rect.x,self.rect.y))
 
 # appending_high_score_function
-def append_score(high_score):
+def write_score(high_score):
 
     '''This function to append high_score in the file'''
 
-    score_file = open('score.txt','a')
+    score_file = open('score.txt','w')
     score_file.write(f'{high_score}\n')
     score_file.close()
 
@@ -329,15 +329,15 @@ def read_score():
     '''This function to read high_score in the file'''
 
     score_file = open('score.txt','r')
-    list = score_file.readlines()
+    new = score_file.read()
     score_file.close()
-    return list
+    return int(new)
 
 if os.path.exists('score.txt'):
     pass
 
 else:
-    append_score(0)
+    write_score(0)
 
 
 # instantiate an object from Bird
@@ -354,7 +354,7 @@ quit_button = Button(screen_width//2+100,screen_height//2-100,exit_button)
 
 run = True
 
-while run:
+while run: 
 
     # controll the speed of scrolling_ground_img 
     clock.tick(fps)
@@ -380,8 +380,8 @@ while run:
 
     # this function to draw score on the screen
     draw_text(str(score),font,color,screen_width//2-50,20)
-    list = read_score()
-    draw_text(f'Best {int(list[-1])}',font,color,screen_width-200,20)
+    best = read_score()
+    draw_text(f'Best {best}',font,color,screen_width-200,20)
 
     # collision between flappy_bird and pipe
     check_collision (bird_group,pipe_group,flappy)
