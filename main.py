@@ -50,29 +50,9 @@ pipe_gap = 150
 pipe_frequency = 700 # milliseconds
 last_pipe = pygame.time.get_ticks() - pipe_frequency
 score = 0
-high_score = 0
 pass_pipe = False
 
 '''Game Function'''
-
-# appending_high_score_function
-def append_score(high_score):
-
-    '''This function to append high_score in the file'''
-
-    score_file = open('score.txt','a')
-    score_file.write(f'{high_score}\n')
-    score_file.close()
-
-# reading_high_score_function
-def readfunc():
-
-    '''This function to read high_score in the file'''
-
-    score_file = open('score.txt','r')
-    list = score_file.readlines()
-    score_file.close()
-    return list
 
 # score function 
 def draw_text (text,font,text_col,x,y):
@@ -116,15 +96,13 @@ def check_collision (bird_group,pipe_group,flappy):
     '''This function to check collisoin between 
     the flappy and (the pipe or the top of the screen)
     '''
-    global game_over , score ,high_score
+    global game_over , score 
     if pygame.sprite.groupcollide(bird_group,pipe_group,False,False)\
         or flappy.rect.top < 0:
         # flappy.rect.top < 0 (means he crached the top of the screen)
         game_over = True
-        high_score = max(high_score,score)
-        list = readfunc()
-        if high_score>int(list[-1]):
-            append_score(high_score)
+        list = read_score()
+        append_score(max(score,int(list[-1])))
 
 # check_scroll function:
 def check_scroll():
@@ -336,6 +314,32 @@ class Button():
 
         screen.blit(self.image,(self.rect.x,self.rect.y))
 
+# appending_high_score_function
+def append_score(high_score):
+
+    '''This function to append high_score in the file'''
+
+    score_file = open('score.txt','a')
+    score_file.write(f'{high_score}\n')
+    score_file.close()
+
+# reading_high_score_function
+def read_score():
+
+    '''This function to read high_score in the file'''
+
+    score_file = open('score.txt','r')
+    list = score_file.readlines()
+    score_file.close()
+    return list
+
+if os.path.exists('score.txt'):
+    pass
+
+else:
+    append_score(0)
+
+
 # instantiate an object from Bird
 flappy = Bird(100,screen_height//2)
 bird_group = pygame.sprite.Group()
@@ -347,12 +351,6 @@ pipe_group = pygame.sprite.Group()
 reset_button = Button(screen_width//2-200,screen_height//2-100,restart_button)
 # create quit button instance 
 quit_button = Button(screen_width//2+100,screen_height//2-100,exit_button)
-
-if os.path.exists('score.txt'):
-    pass
-
-else:
-    append_score(0)
 
 run = True
 
@@ -382,8 +380,8 @@ while run:
 
     # this function to draw score on the screen
     draw_text(str(score),font,color,screen_width//2-50,20)
-    list = readfunc()
-    draw_text(f'best {int(list[-1])}',font,color,screen_width-200,20)
+    list = read_score()
+    draw_text(f'Best {int(list[-1])}',font,color,screen_width-200,20)
 
     # collision between flappy_bird and pipe
     check_collision (bird_group,pipe_group,flappy)
