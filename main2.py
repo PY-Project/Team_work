@@ -58,7 +58,7 @@ pipe_frequency = 700  # milliseconds
 last_pipe = pygame.time.get_ticks() - pipe_frequency
 score = 0
 pass_pipe = False
-tries = 4
+tries = 5
 '''Game Function'''
 
 # score function
@@ -178,7 +178,7 @@ def Game_Over():
 
     elif game_over == True:
 
-        if tries == 1:
+        if not tries:
             if reset_button.draw_restart_button():
                 game_over = False
                 reset_game()
@@ -207,7 +207,7 @@ def reset_game():
 
     global score
     global tries
-    tries = 4
+    tries = 5
     pipe_group.empty()
     flappy.rect.x = 100
     flappy.rect.y = screen_height//2
@@ -225,8 +225,8 @@ def quit_game():
 
 
 def lives(tries):
-    for i in range(1, tries):
-        screen.blit(bird, (i*60, 25))
+    for i in range(tries):
+        screen.blit(bird, (i*55, 25))
 
 
 # Bird Class
