@@ -9,7 +9,6 @@ from random import randint
 pygame.init()
 
 clock = pygame.time.Clock()
-print(clock)
 fps = 65  # frame per Second
 
 # define font
