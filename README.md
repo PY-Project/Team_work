@@ -108,10 +108,6 @@ python main.py
 - **Button**: Represents the restart and quit buttons.
 - **Letter**: Represents the letters of the "Game Over" text.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
 ## Acknowledgements
 
 - Pygame community for the excellent library and resources.
